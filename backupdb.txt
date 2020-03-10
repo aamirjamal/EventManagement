@@ -1,0 +1,187 @@
+-- Adminer 4.7.6 MySQL dump
+
+SET NAMES utf8;
+SET time_zone = '+00:00';
+SET foreign_key_checks = 0;
+SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
+
+SET NAMES utf8mb4;
+
+DROP TABLE IF EXISTS `attendee`;
+CREATE TABLE `attendee` (
+  `idattendee` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `password` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `role` int(11) DEFAULT NULL,
+  PRIMARY KEY (`idattendee`),
+  KEY `role_idx` (`role`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+INSERT INTO `attendee` (`idattendee`, `name`, `password`, `role`) VALUES
+(1,	'admin',	'7f91e8a4b648b0125b15dc5a3b6466f9f4906d92c72bea9bd6be92c853bebda2',	1),
+(3,	'John',	'7f91e8a4b648b0125b15dc5a3b6466f9f4906d92c72bea9bd6be92c853bebda2',	3),
+(4,	'Peter',	'7f91e8a4b648b0125b15dc5a3b6466f9f4906d92c72bea9bd6be92c853bebda2',	3),
+(5,	'David',	'7f91e8a4b648b0125b15dc5a3b6466f9f4906d92c72bea9bd6be92c853bebda2',	3),
+(6,	'Sunny',	'7f91e8a4b648b0125b15dc5a3b6466f9f4906d92c72bea9bd6be92c853bebda2',	3),
+(7,	'Gabbu',	'7f91e8a4b648b0125b15dc5a3b6466f9f4906d92c72bea9bd6be92c853bebda2',	3),
+(8,	'Fifa manager',	'7f91e8a4b648b0125b15dc5a3b6466f9f4906d92c72bea9bd6be92c853bebda2',	2),
+(9,	'Karda',	'7f91e8a4b648b0125b15dc5a3b6466f9f4906d92c72bea9bd6be92c853bebda2',	3),
+(28,	'testing&lt;script&gt;alert(&quot;hi&quot;);&lt;/script&gt;',	'6ca13d52ca70c883e0f0bb101e425a89e8624de51db2d2392593af6a84118090',	2),
+(12,	'Aamir',	'7f91e8a4b648b0125b15dc5a3b6466f9f4906d92c72bea9bd6be92c853bebda2',	1),
+(14,	'Drake',	'7f91e8a4b648b0125b15dc5a3b6466f9f4906d92c72bea9bd6be92c853bebda2',	3),
+(15,	'Tom',	'7f91e8a4b648b0125b15dc5a3b6466f9f4906d92c72bea9bd6be92c853bebda2',	2),
+(16,	'Jimmy',	'7f91e8a4b648b0125b15dc5a3b6466f9f4906d92c72bea9bd6be92c853bebda2',	2),
+(29,	'test',	'ecd71870d1963316a97e3ac3408c9835ad8cf0f3c1bc703527c30265534f75ae',	3);
+
+DROP TABLE IF EXISTS `attendee_event`;
+CREATE TABLE `attendee_event` (
+  `event` int(11) NOT NULL,
+  `attendee` int(11) NOT NULL,
+  `paid` tinyint(4) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`event`,`attendee`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+INSERT INTO `attendee_event` (`event`, `attendee`, `paid`) VALUES
+(3,	2,	0),
+(4,	8,	0),
+(4,	7,	127),
+(4,	3,	127),
+(4,	4,	127),
+(3,	5,	80),
+(3,	6,	0),
+(3,	7,	127),
+(4,	14,	0),
+(3,	3,	0),
+(3,	4,	0),
+(3,	9,	0),
+(4,	12,	0),
+(4,	1,	0),
+(11,	1,	0);
+
+DROP TABLE IF EXISTS `attendee_session`;
+CREATE TABLE `attendee_session` (
+  `session` int(11) NOT NULL,
+  `attendee` int(11) NOT NULL,
+  PRIMARY KEY (`session`,`attendee`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+INSERT INTO `attendee_session` (`session`, `attendee`) VALUES
+(1,	2),
+(1,	3),
+(1,	4),
+(1,	5),
+(1,	7),
+(1,	9),
+(2,	2),
+(3,	2),
+(3,	7),
+(3,	9),
+(4,	4),
+(4,	8),
+(5,	3),
+(5,	7),
+(5,	8),
+(6,	3),
+(6,	8),
+(6,	9),
+(7,	8),
+(8,	7),
+(8,	8),
+(8,	12),
+(9,	7),
+(9,	8),
+(9,	14),
+(10,	3),
+(10,	4),
+(10,	7),
+(10,	8),
+(10,	9),
+(10,	14);
+
+DROP TABLE IF EXISTS `event`;
+CREATE TABLE `event` (
+  `idevent` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `datestart` datetime NOT NULL,
+  `dateend` datetime NOT NULL,
+  `numberallowed` int(11) NOT NULL,
+  `venue` int(11) NOT NULL,
+  PRIMARY KEY (`idevent`),
+  UNIQUE KEY `name_UNIQUE` (`name`),
+  KEY `venue_fk_idx` (`venue`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+INSERT INTO `event` (`idevent`, `name`, `datestart`, `dateend`, `numberallowed`, `venue`) VALUES
+(2,	'Champions Trophy',	'2020-02-12 00:00:00',	'2020-02-22 00:00:00',	95000,	1),
+(3,	'AUS vs IND',	'2020-01-10 00:00:00',	'2020-01-20 00:00:00',	95000,	1),
+(4,	'FIFA 2020',	'2020-03-15 00:00:00',	'2020-03-25 00:00:00',	70000,	1),
+(11,	'Career Fair',	'2020-02-26 00:00:00',	'2020-02-27 00:00:00',	600,	1),
+(10,	'BrickHack',	'2020-03-11 00:00:00',	'2020-03-11 00:00:00',	450,	8);
+
+DROP TABLE IF EXISTS `manager_event`;
+CREATE TABLE `manager_event` (
+  `event` int(11) NOT NULL,
+  `manager` int(11) NOT NULL,
+  PRIMARY KEY (`event`,`manager`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+INSERT INTO `manager_event` (`event`, `manager`) VALUES
+(3,	2),
+(4,	8),
+(10,	15),
+(11,	16);
+
+DROP TABLE IF EXISTS `role`;
+CREATE TABLE `role` (
+  `idrole` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`idrole`),
+  UNIQUE KEY `name_UNIQUE` (`name`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+INSERT INTO `role` (`idrole`, `name`) VALUES
+(1,	'admin'),
+(2,	'event manager'),
+(3,	'attendee');
+
+DROP TABLE IF EXISTS `session`;
+CREATE TABLE `session` (
+  `idsession` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `numberallowed` int(11) NOT NULL,
+  `event` int(11) NOT NULL,
+  `startdate` datetime NOT NULL,
+  `enddate` datetime NOT NULL,
+  PRIMARY KEY (`idsession`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+INSERT INTO `session` (`idsession`, `name`, `numberallowed`, `event`, `startdate`, `enddate`) VALUES
+(1,	'first match',	95000,	3,	'2020-01-10 00:00:00',	'2020-01-13 00:00:00'),
+(2,	'second match',	95000,	3,	'2020-01-15 00:00:00',	'2020-01-16 00:00:00'),
+(3,	'third match',	95000,	3,	'2020-01-18 00:00:00',	'2020-01-20 00:00:00'),
+(4,	'ENG vs FRA',	70000,	4,	'2020-03-15 00:00:00',	'2020-03-15 00:00:00'),
+(5,	'GER vs BRA',	70000,	4,	'2020-03-16 00:00:00',	'2020-03-16 00:00:00'),
+(6,	'ARG vs NETH',	70000,	4,	'2020-03-17 00:00:00',	'2020-03-17 00:00:00'),
+(7,	'COL vs SPA',	70000,	4,	'2020-03-18 00:00:00',	'2020-03-18 00:00:00'),
+(8,	'SEMI FINALS 1',	70000,	4,	'2020-03-21 00:00:00',	'2020-03-21 00:00:00'),
+(9,	'SEMI FINALS 2',	70000,	4,	'2020-03-22 00:00:00',	'2020-03-22 00:00:00'),
+(10,	'FINALS',	70000,	4,	'2020-03-25 00:00:00',	'2020-03-25 00:00:00'),
+(15,	'1st day career fair',	500,	11,	'2020-02-26 00:00:00',	'2020-02-26 00:00:00'),
+(16,	'Interviews',	20,	11,	'2020-02-27 00:00:00',	'2020-02-27 00:00:00');
+
+DROP TABLE IF EXISTS `venue`;
+CREATE TABLE `venue` (
+  `idvenue` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `capacity` int(11) DEFAULT NULL,
+  PRIMARY KEY (`idvenue`),
+  UNIQUE KEY `name_UNIQUE` (`name`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+INSERT INTO `venue` (`idvenue`, `name`, `capacity`) VALUES
+(1,	'Allianz Arena Stadium',	75000),
+(2,	'Melbourne Cricket Ground',	100024),
+(3,	'Sydney Opera House',	2679),
+(8,	'RIT',	3000);
+
+-- 2020-03-10 17:05:05
